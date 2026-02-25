@@ -1,29 +1,40 @@
-function ProductCard({ name, price, inStock }) {
-  return (
-    <div style={{ border: "1px solid gray", padding: "10px", margin: "10px" }}>
-      <h3>{name}</h3>
-      <p>Price: ₹{price}</p>
-
-      {inStock ? (
-        <button onClick={() => alert(name + " added successfully")}>
-          Add to Cart
-        </button>
-      ) : (
-        <p style={{ color: "red" }}>Out of stock</p>
-      )}
-    </div>
-  );
-}
+import { useState } from "react";
 
 function App() {
-  return (
-    <div>
-      <h1>Product List</h1>
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState("");
 
-      <ProductCard name="Laptop" price={50000} inStock={true} />
-      <ProductCard name="Phone" price={20000} inStock={false} />
-      <ProductCard name="Headphones" price={2000} inStock={true} />
-      <ProductCard name="Keyboard" price={1500} inStock={true} />
+  return (
+    <div style={{ padding: "20px" }}>
+      <h1>Day 3 – useState</h1>
+
+      {/* Counter */}
+      <h2>Counter: {count}</h2>
+
+      {count < 0 && <p style={{ color: "red" }}>Count cannot be negative</p>}
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+      <button
+        onClick={() => {
+          if (count > 0) {
+            setCount(count - 1);
+          }
+        }}
+      >
+        Decrease
+      </button>
+
+      <hr />
+
+      {/* Input form */}
+      <h2>Enter your name</h2>
+      <input
+        type="text"
+        placeholder="Type your name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      {name && <p>Hello, {name} 👋</p>}
     </div>
   );
 }
