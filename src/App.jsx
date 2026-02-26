@@ -1,40 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Day 3 – useState</h1>
+      <h1>User List</h1>
 
-      {/* Counter */}
-      <h2>Counter: {count}</h2>
+      {loading && <p>Loading...</p>}
 
-      {count < 0 && <p style={{ color: "red" }}>Count cannot be negative</p>}
-      <button onClick={() => setCount(count + 1)}>Increase</button>
-      <button
-        onClick={() => {
-          if (count > 0) {
-            setCount(count - 1);
-          }
-        }}
-      >
-        Decrease
-      </button>
-
-      <hr />
-
-      {/* Input form */}
-      <h2>Enter your name</h2>
-      <input
-        type="text"
-        placeholder="Type your name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      {name && <p>Hello, {name} 👋</p>}
+      {!loading &&
+        users.map((user) => (
+          <div key={user.id} style={{ marginBottom: "10px" }}>
+            <h3>{user.name}</h3>
+            <p>{user.email}</p>
+          </div>
+        ))}
     </div>
   );
 }
