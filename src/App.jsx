@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import UserList from "./components/UserList";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -10,10 +11,6 @@ function App() {
       .then((data) => {
         setUsers(data);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-        setLoading(false);
       });
   }, []);
 
@@ -21,15 +18,7 @@ function App() {
     <div style={{ padding: "20px" }}>
       <h1>User List</h1>
 
-      {loading && <p>Loading...</p>}
-
-      {!loading &&
-        users.map((user) => (
-          <div key={user.id} style={{ marginBottom: "10px" }}>
-            <h3>{user.name}</h3>
-            <p>{user.email}</p>
-          </div>
-        ))}
+      {loading ? <p>Loading...</p> : <UserList users={users} />}
     </div>
   );
 }
