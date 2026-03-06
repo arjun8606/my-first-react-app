@@ -1,24 +1,27 @@
-import { useState, useEffect } from "react";
-import UserList from "./components/UserList";
+import { Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import Users from "./pages/Users";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-        setLoading(false);
-      });
-  }, []);
-
   return (
     <div style={{ padding: "20px" }}>
-      <h1>User List</h1>
+      <h1>My React App</h1>
 
-      {loading ? <p>Loading...</p> : <UserList users={users} />}
+      <nav style={{ marginBottom: "20px" }}>
+        <Link to="/">Home</Link> |{" "}
+        <Link to="/users">Users</Link> |{" "}
+        <Link to="/about">About</Link> |{" "}
+        <Link to="/contact">Contact</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
     </div>
   );
 }
